@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배너 작업의뢰서 | 콘텐츠디자인팀</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:#0F0F12;
+  --ink2:#3A3A45;
+  --ink3:#7A7A8A;
+  --ink4:#B8B8C8;
+  --bg:#F5F4F1;
+  --surface:#FFFFFF;
+  --line:#E4E3DF;
+  --line2:#D0CFC9;
+  --blue:#2A5EF0;
+  --blue-dim:#EEF2FE;
+  --blue-mid:#C5D2FC;
+  --green:#18A76A;
+  --green-dim:#E8F8F1;
+  --amber:#E8930A;
+  --amber-dim:#FEF4E3;
+  --red:#E03030;
+  --red-dim:#FEF0F0;
+  --accent:#2A5EF0;
+  --r:8px;
+  --r-lg:14px;
+  --sh:0 1px 2px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);
+  --sh-sm:0 1px 2px rgba(0,0,0,.08);
+}
+
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.site-header{
+  background:var(--ink);
+  color:#fff;
+  padding:0 40px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.site-logo{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.5px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.site-logo::before{
+  content:'';
+  display:block;
+  width:6px;height:6px;
+  background:var(--blue);
+  border-radius:50%;
+  box-shadow:0 0 0 3px rgba(42,94,240,.35);
+}
+.badge-count{
+  background:var(--blue);
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:20px;
+  letter-spacing:.2px;
+}
+
+/* ── LAYOUT ── */
+.page{
+  max-width:800px;
+  margin:0 auto;
+  padding:36px 20px 80px;
+}
+
+/* ── SECTION HEADING ── */
+.step{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:32px 0 14px;
+}
+.step:first-child{margin-top:0}
+.step-num{
+  width:28px;height:28px;
+  background:var(--ink);
+  color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+  flex-shrink:0;
+}
+.step-label{
+  font-size:16px;font-weight:700;
+  color:var(--ink);
+}
+.step-sub{
+  font-size:12px;
+  color:var(--ink3);
+  margin-left:auto;
+  font-weight:400;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  box-shadow:var(--sh);
+  overflow:hidden;
+}
+
+/* ── FIELD GRID ── */
+.field-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+}
+.field-grid.three{grid-template-columns:1fr 1fr 1fr}
+.field-box{
+  background:var(--surface);
+  padding:16px 20px;
+}
+.field-box.full{grid-column:1/-1}
+.field-label{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink3);
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin-bottom:6px;
+}
+.field-label .req{color:var(--red);margin-left:2px}
+.field-input{
+  width:100%;
+  border:none;
+  outline:none;
+  font-family:inherit;
+  font-size:14px;
+  color:var(--ink);
+  background:transparent;
+  padding:0;
+}
+.field-input::placeholder{color:var(--ink4)}
+.field-input:focus{color:var(--ink)}
+select.field-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237A7A8A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;padding-right:18px}
+
+/* ── COPY TEXT BLOCK ── */
+.copy-block{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1px;
+  background:var(--line);
+}
+.copy-row{
+  background:var(--surface);
+  padding:14px 20px;
+  display:grid;
+  grid-template-columns:140px 1fr auto;
+  align-items:start;
+  gap:16px;
+}
+.copy-label-wrap{padding-top:2px}
+.copy-tag{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--ink3);
+  margin-bottom:3px;
+}
+.copy-desc{
+  font-size:11px;
+  color:var(--ink4);
+  line-height:1.4;
+}
+.copy-input{
+  width:100%;
+  border:none;
+  outline:none;
+  font-family:inherit;
+  font-size:14px;
+  color:var(--ink);
+  background:transparent;
+  resize:none;
+  min-height:36px;
+  line-height:1.6;
+}
+.copy-input::placeholder{color:var(--ink4)}
+.copy-input.limited{font-size:16px;font-weight:500;letter-spacing:.3px}
+.char-counter{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink4);
+  min-width:36px;
+  text-align:right;
+  padding-top:4px;
+  font-variant-numeric:tabular-nums;
+  transition:color .15s;
+}
+.char-counter.ok{color:var(--green)}
+.char-counter.warn{color:var(--amber)}
+.char-counter.over{color:var(--red)}
+.copy-row.has-limit{
+  background:linear-gradient(to right, #FAFCFF 0%, var(--surface) 100%);
+}
+
+/* ── PLATFORM TABS ── */
+.platform-tabs{
+  display:flex;
+  gap:0;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.ptab{
+  flex:1;
+  padding:14px 0;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  color:var(--ink3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .15s;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.ptab:first-child{border-radius:var(--r-lg) 0 0 0}
+.ptab:last-child{border-radius:0 var(--r-lg) 0 0}
+.ptab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-dim)}
+.ptab-badge{
+  background:var(--ink4);
+  color:#fff;
+  font-size:10px;
+  padding:1px 7px;
+  border-radius:10px;
+  font-weight:700;
+  transition:background .15s;
+}
+.ptab.active .ptab-badge{background:var(--blue)}
+
+/* ── PLATFORM PANEL ── */
+.platform-panel{display:none}
+.platform-panel.active{display:block}
+
+/* ── BANNER GROUP ── */
+.banner-group{
+  border-bottom:1px solid var(--line);
+  padding:18px 20px;
+}
+.banner-group:last-child{border-bottom:none}
+.group-title{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink3);
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.group-title::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+.banner-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:8px;
+}
+
+/* ── BANNER CHECKBOX ── */
+.banner-item{
+  position:relative;
+}
+.banner-item input[type=checkbox]{
+  position:absolute;
+  opacity:0;
+  width:0;height:0;
+}
+.banner-item label{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding:12px 14px;
+  border:1.5px solid var(--line);
+  border-radius:var(--r);
+  cursor:pointer;
+  transition:all .15s;
+  background:var(--surface);
+  min-height:64px;
+}
+.banner-item label:hover{
+  border-color:var(--blue-mid);
+  background:var(--blue-dim);
+}
+.banner-item input:checked + label{
+  border-color:var(--blue);
+  background:var(--blue-dim);
+}
+.banner-item input:checked + label .banner-check{
+  background:var(--blue);
+  border-color:var(--blue);
+}
+.banner-item input:checked + label .banner-check::after{content:'✓';color:#fff}
+.banner-check{
+  width:16px;height:16px;
+  border:1.5px solid var(--line2);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;
+  flex-shrink:0;
+  transition:all .15s;
+  margin-bottom:4px;
+}
+.banner-name{
+  font-size:12px;
+  font-weight:500;
+  color:var(--ink2);
+  line-height:1.4;
+}
+.banner-size{
+  font-size:10px;
+  color:var(--ink3);
+  font-weight:400;
+}
+.banner-new{
+  display:inline-block;
+  background:var(--blue);
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  padding:1px 5px;
+  border-radius:3px;
+  letter-spacing:.3px;
+  margin-left:4px;
+  vertical-align:middle;
+}
+
+/* ── TEXTAREA CARD ── */
+.textarea-card{
+  background:var(--surface);
+}
+.textarea-section{
+  border-bottom:1px solid var(--line);
+  padding:18px 20px;
+}
+.textarea-section:last-child{border-bottom:none}
+.textarea-label{
+  font-size:11px;font-weight:700;
+  color:var(--ink3);
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin-bottom:10px;
+}
+.textarea-field{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:12px 14px;
+  font-family:inherit;
+  font-size:13px;
+  color:var(--ink);
+  resize:vertical;
+  min-height:100px;
+  outline:none;
+  transition:border-color .15s;
+  background:var(--bg);
+}
+.textarea-field:focus{border-color:var(--blue);background:var(--surface)}
+.textarea-field::placeholder{color:var(--ink4)}
+
+/* ── INFO NOTE ── */
+.info-note{
+  background:var(--amber-dim);
+  border:1px solid #F5D48A;
+  border-radius:var(--r);
+  padding:12px 16px;
+  font-size:12px;
+  color:#7A5500;
+  margin:18px 20px;
+  line-height:1.6;
+}
+.info-note strong{font-weight:700}
+
+/* ── SUBMIT BAR ── */
+.submit-bar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  background:var(--surface);
+  border-top:1px solid var(--line);
+  padding:14px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:40;
+  box-shadow:0 -4px 20px rgba(0,0,0,.08);
+}
+.submit-summary{
+  font-size:13px;
+  color:var(--ink3);
+}
+.submit-summary strong{color:var(--blue);font-size:15px}
+.btn-submit{
+  background:var(--ink);
+  color:#fff;
+  border:none;
+  border-radius:var(--r);
+  padding:12px 32px;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .18s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-submit:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 4px 16px rgba(42,94,240,.3)}
+.btn-reset{
+  background:none;
+  color:var(--ink3);
+  border:1px solid var(--line2);
+  border-radius:var(--r);
+  padding:12px 20px;
+  font-family:inherit;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.btn-reset:hover{border-color:var(--ink2);color:var(--ink2)}
+
+/* ── SUCCESS OVERLAY ── */
+.overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(15,15,18,.5);
+  z-index:100;
+  align-items:center;justify-content:center;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--surface);
+  border-radius:var(--r-lg);
+  padding:40px;
+  text-align:center;
+  max-width:420px;
+  width:90%;
+  box-shadow:0 24px 60px rgba(0,0,0,.2);
+}
+.modal-icon{font-size:48px;margin-bottom:16px;line-height:1}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.modal-sub{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.7}
+.modal-id{
+  display:inline-block;
+  background:var(--blue-dim);
+  color:var(--blue);
+  padding:8px 20px;
+  border-radius:20px;
+  font-size:13px;font-weight:700;
+  margin-bottom:24px;
+  letter-spacing:.5px;
+}
+.btn-new{
+  width:100%;
+  background:var(--ink);
+  color:#fff;
+  border:none;
+  border-radius:var(--r);
+  padding:14px;
+  font-family:inherit;
+  font-size:14px;font-weight:700;
+  cursor:pointer;
+  transition:background .15s;
+}
+.btn-new:hover{background:var(--blue)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:fadeUp .3s ease both}
+.card:nth-child(2){animation-delay:.05s}
+.card:nth-child(3){animation-delay:.1s}
+.card:nth-child(4){animation-delay:.15s}
+
+/* ── PREVIEW EYE BUTTON ── */
+.banner-preview-btn{
+  position:absolute;
+  top:7px;right:7px;
+  width:22px;height:22px;
+  background:var(--bg);
+  border:1px solid var(--line2);
+  border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--ink3);
+  z-index:2;
+  transition:all .15s;
+  line-height:1;
+}
+.banner-preview-btn:hover{background:var(--blue-dim);border-color:var(--blue-mid);color:var(--blue)}
+.banner-item{position:relative}
+
+/* ── POSITION MODAL ── */
+.pos-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(15,15,18,.6);
+  z-index:200;
+  align-items:center;justify-content:center;
+  padding:20px;
+}
+.pos-overlay.open{display:flex}
+.pos-modal{
+  background:var(--surface);
+  border-radius:var(--r-lg);
+  width:100%;max-width:700px;
+  max-height:90vh;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 24px 60px rgba(0,0,0,.25);
+}
+.pos-modal-head{
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.pos-modal-head h3{font-size:14px;font-weight:700}
+.pos-modal-meta{font-size:11px;color:var(--ink3);margin-top:2px}
+.pos-modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink3);padding:4px}
+.pos-modal-close:hover{color:var(--ink)}
+.pos-modal-body{
+  overflow-y:auto;
+  padding:20px;
+  flex:1;
+}
+.pos-img-wrap{
+  width:100%;
+  border-radius:var(--r);
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+.pos-img-wrap img{
+  width:100%;
+  display:block;
+}
+/* Layout placeholder diagram */
+.layout-diagram{
+  background:#F8F8F9;
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  overflow:hidden;
+  font-family:inherit;
+}
+.layout-pc{width:100%;aspect-ratio:16/9;display:flex;flex-direction:column}
+.layout-mobile{width:220px;margin:0 auto;aspect-ratio:9/19;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:2px solid var(--line2)}
+.ld-bar{background:#E0E0E8;height:28px;display:flex;align-items:center;padding:0 12px;gap:6px;flex-shrink:0}
+.ld-bar-dot{width:7px;height:7px;border-radius:50%;background:var(--line2)}
+.ld-url{flex:1;background:#fff;height:16px;border-radius:8px;margin:0 8px}
+.ld-nav{background:#EAEAF0;height:36px;flex-shrink:0;display:flex;align-items:center;padding:0 16px;gap:20px}
+.ld-nav-item{width:40px;height:8px;background:#C8C8D8;border-radius:4px}
+.ld-content{flex:1;display:grid;padding:12px;gap:8px;overflow:hidden;position:relative}
+.ld-block{background:#E8E8F0;border-radius:4px}
+.ld-highlight{background:var(--blue)!important;position:relative;display:flex;align-items:center;justify-content:center}
+.ld-highlight-label{color:#fff;font-size:9px;font-weight:700;text-align:center;padding:2px 4px;line-height:1.3}
+.ld-note{
+  padding:10px 14px;
+  font-size:11px;
+  color:var(--ink3);
+  border-top:1px solid var(--line);
+  background:var(--surface);
+  line-height:1.6;
+}
+.ld-note strong{color:var(--ink2)}
+
+/* ── LIVE PREVIEW SECTION ── */
+.preview-wrapper{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  box-shadow:var(--sh);
+  overflow:hidden;
+}
+.preview-tabs{
+  display:flex;
+  border-bottom:1px solid var(--line);
+  background:#FAFAF8;
+}
+.pvtab{
+  flex:1;
+  padding:11px 6px;
+  text-align:center;
+  font-size:11px;font-weight:700;
+  color:var(--ink3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .14s;
+  user-select:none;
+  line-height:1.4;
+}
+.pvtab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--surface)}
+.pv-panel{display:none;padding:24px 20px}
+.pv-panel.active{display:flex;justify-content:center;align-items:flex-start;gap:20px;flex-wrap:wrap}
+
+/* ── 공통 mock 정보 사이드 ── */
+.mock-side-info{
+  display:flex;flex-direction:column;
+  justify-content:center;
+  gap:6px;
+  min-width:120px;
+}
+.mock-info-tag{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px}
+.mock-info-size{font-size:12px;color:var(--ink2);font-weight:500}
+
+/* 공통: 이미지 영역 원형 */
+.mock-img-circle{
+  background:#D0D0DC;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  color:#888;text-align:center;
+  line-height:1.4;
+  flex-shrink:0;
+}
+
+/* ── 1-B. 쇼핑클립 B형 214×166 ── */
+.mock-clip-b{
+  width:280px;height:280px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #E4E4EE;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+  display:grid;
+  grid-template-columns:1fr auto;
+  grid-template-rows:auto 1fr;
+  padding:18px 16px;
+  gap:0;
+  flex-shrink:0;
+  overflow:hidden;
+  position:relative;
+}
+.mock-clip-b .mock-img-circle{
+  width:90px;height:90px;font-size:11px;
+  grid-column:2;grid-row:1;
+  align-self:start;
+}
+.mock-clip-b-bottom{
+  grid-column:1/-1;grid-row:2;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding-top:12px;
+}
+.mock-clip-b-extra{
+  display:inline-flex;
+  align-items:center;
+  background:#6B7FE0;
+  color:#fff;
+  font-size:9px;font-weight:700;
+  padding:3px 9px;
+  border-radius:4px;
+  margin-bottom:8px;
+  width:fit-content;
+  min-height:14px;
+  letter-spacing:.2px;
+}
+.mock-clip-b-extra.mock-empty{background:#E0E0EE;color:#B8B8C8!important}
+.mock-clip-b-m1{
+  font-size:16px;font-weight:800;
+  color:#1a1a1a;
+  line-height:1.2;min-height:20px;
+  word-break:keep-all;letter-spacing:-.3px;
+}
+.mock-clip-b-m2{
+  font-size:16px;font-weight:800;
+  color:#1a1a1a;
+  line-height:1.2;min-height:20px;
+  word-break:keep-all;letter-spacing:-.3px;
+}
+.mock-clip-b-m1.mock-empty{color:#ddd!important}
+.mock-clip-b-m2.mock-empty{color:#ddd!important}
+
+/* ── 1. 쇼핑클립 A형 214×166 → 362×280 ── */
+.mock-clip{
+  width:362px;height:280px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #E4E4EE;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+  display:flex;
+  align-items:center;
+  padding:20px 18px;
+  gap:14px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.mock-clip-text{flex:1;display:flex;flex-direction:column;gap:5px}
+.mock-clip .mock-img-circle{width:110px;height:110px;font-size:12px}
+.mock-clip-m1{
+  font-size:14px;font-weight:800;
+  color:#6B7FE0;
+  line-height:1.25;min-height:18px;
+  word-break:keep-all;letter-spacing:-.2px;
+}
+.mock-clip-m2{
+  font-size:14px;font-weight:800;
+  color:#1a1a1a;
+  line-height:1.25;min-height:18px;
+  word-break:keep-all;letter-spacing:-.2px;
+}
+.mock-clip-m1.mock-empty{color:#ddd!important}
+.mock-clip-m2.mock-empty{color:#ddd!important}
+
+/* ── 2. 모바일 메인 상단 720×350 → 480×233 ── */
+.mock-mobile{
+  width:480px;height:233px;
+  background:linear-gradient(120deg,#eef0ff 0%,#dce4fb 45%,#cdd8f8 100%);
+  border-radius:10px;
+  box-shadow:0 4px 20px rgba(100,120,240,.15);
+  display:flex;
+  align-items:center;
+  padding:20px 22px;
+  gap:16px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.mock-mobile-text{flex:1;display:flex;flex-direction:column}
+.mock-mobile .mock-img-circle{width:130px;height:130px;font-size:13px;flex-shrink:0}
+.mock-mob-sub{
+  font-size:10px;color:#7A86C0;font-weight:500;
+  margin-bottom:6px;min-height:14px;letter-spacing:.1px;
+}
+.mock-mob-m1{
+  font-size:20px;font-weight:800;color:#1a1a1a;
+  line-height:1.2;min-height:24px;
+  word-break:keep-all;letter-spacing:-.3px;
+}
+.mock-mob-m2{
+  font-size:20px;font-weight:800;color:#1a1a1a;
+  line-height:1.2;min-height:24px;
+  word-break:keep-all;letter-spacing:-.3px;
+}
+.mock-mob-btn{
+  margin-top:12px;
+  display:inline-flex;align-items:center;gap:4px;
+  border:1px solid #9AA0CC;border-radius:20px;
+  padding:4px 12px;
+  font-size:10px;color:#5A64A8;font-weight:600;
+  width:fit-content;
+}
+.mock-mob-sub.mock-empty{color:#ccd!important}
+.mock-mob-m1.mock-empty{color:#ccd!important}
+.mock-mob-m2.mock-empty{color:#ccd!important}
+
+/* ── 3. 트렌드픽업 E타입 750×776 → 270×280 ── */
+.mock-trend{
+  width:270px;height:280px;
+  background:radial-gradient(ellipse at 50% 10%,#d4dcfb 0%,#dde4fc 35%,#eaeefd 65%,#f0f2ff 100%);
+  border-radius:10px;
+  box-shadow:0 4px 20px rgba(100,120,240,.14);
+  display:flex;flex-direction:column;
+  align-items:center;
+  padding:22px 16px 16px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.mock-trend .mock-img-circle{width:100px;height:100px;margin-top:12px;font-size:12px}
+.mock-trend-sub{
+  font-size:10px;color:#7A86C0;font-weight:500;
+  margin-bottom:6px;min-height:14px;
+  text-align:center;letter-spacing:.1px;
+}
+.mock-trend-m1{
+  font-size:15px;font-weight:800;
+  color:#6B7FE0;
+  line-height:1.25;min-height:19px;
+  text-align:center;word-break:keep-all;letter-spacing:-.2px;
+}
+.mock-trend-m2{
+  font-size:15px;font-weight:800;color:#1a1a1a;
+  line-height:1.25;min-height:19px;
+  text-align:center;word-break:keep-all;letter-spacing:-.2px;margin-top:2px;
+}
+.mock-trend-extra{
+  font-size:9px;color:#9AA0CC;
+  margin-top:6px;text-align:center;min-height:12px;font-weight:500;
+}
+.mock-trend-sub.mock-empty{color:#ccd!important}
+.mock-trend-m1.mock-empty{color:#ccd!important}
+.mock-trend-m2.mock-empty{color:#ccd!important}
+.mock-trend-extra.mock-empty{color:#ccd!important}
+
+@media(max-width:600px){
+  .page{padding:20px 12px 80px}
+  .field-grid,.field-grid.three{grid-template-columns:1fr}
+  .copy-row{grid-template-columns:1fr}
+  .copy-label-wrap{padding-top:0;margin-bottom:4px}
+  .char-counter{display:none}
+  .submit-bar{padding:12px 16px}
+  .banner-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-logo">콘텐츠디자인팀 배너 작업의뢰서</div>
+  <div class="badge-count" id="headerCount">배너 0개 선택</div>
+</header>
+
+<div class="page">
+
+  <!-- ① 기본 정보 -->
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-label">기본 정보</div>
+    <div class="step-sub">* 필수 항목</div>
+  </div>
+
+  <div class="card">
+    <div class="field-grid">
+      <div class="field-box">
+        <div class="field-label">요청 부서 <span class="req">*</span></div>
+        <select class="field-input" id="f_dept">
+          <option value="">선택</option>
+          <option>가전팀</option><option>디지털/영상팀</option><option>컴퓨터팀</option>
+          <option>마케팅전략팀</option><option>패션/뷰티팀</option><option>스포츠팀</option>
+          <option>식품/유아팀</option><option>공구/자동차팀</option><option>생활/가구팀</option>
+          <option>커뮤니티팀</option><option>퍼포먼스마케팅팀</option><option>모바일AI서비스팀</option>
+          <option>자동차사업팀</option><option>광고영업팀</option><option>기타</option>
+        </select>
+      </div>
+      <div class="field-box">
+        <div class="field-label">요청자 <span class="req">*</span></div>
+        <input type="text" class="field-input" id="f_name" placeholder="이름 입력">
+      </div>
+    </div>
+    <div class="field-grid" style="border-top:1px solid var(--line)">
+      <div class="field-box full">
+        <div class="field-label">의뢰 제목 <span class="req">*</span></div>
+        <input type="text" class="field-input" id="f_title" placeholder="예: LG 냉장고 신제품 출시 기념 배너 제작">
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 카피 텍스트 (공통) -->
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-label">카피 텍스트</div>
+    <div class="step-sub">모든 배너에 공통 적용</div>
+  </div>
+
+  <div class="card">
+    <div class="copy-block">
+
+      <div class="copy-row has-limit">
+        <div class="copy-label-wrap">
+          <div class="copy-tag">메인 카피 1줄 <span class="req" style="color:var(--red)">*</span></div>
+          <div class="copy-desc">최대 12자 (띄어쓰기 포함)</div>
+        </div>
+        <input
+          type="text"
+          class="copy-input limited"
+          id="main1"
+          maxlength="12"
+          placeholder="메인 카피 첫째 줄"
+          oninput="updateCounter('main1','cnt1',12)"
+        >
+        <div class="char-counter" id="cnt1">0/12</div>
+      </div>
+
+      <div class="copy-row has-limit">
+        <div class="copy-label-wrap">
+          <div class="copy-tag">메인 카피 2줄 <span class="req" style="color:var(--red)">*</span></div>
+          <div class="copy-desc">최대 12자 (띄어쓰기 포함)</div>
+        </div>
+        <input
+          type="text"
+          class="copy-input limited"
+          id="main2"
+          maxlength="12"
+          placeholder="메인 카피 둘째 줄"
+          oninput="updateCounter('main2','cnt2',12)"
+        >
+        <div class="char-counter" id="cnt2">0/12</div>
+      </div>
+
+      <div class="copy-row">
+        <div class="copy-label-wrap">
+          <div class="copy-tag">서브 카피</div>
+          <div class="copy-desc">글자 수 제한 없음</div>
+        </div>
+        <textarea
+          class="copy-input"
+          id="sub1"
+          rows="2"
+          placeholder="서브 카피를 입력하세요"
+        ></textarea>
+        <div></div>
+      </div>
+
+      <div class="copy-row">
+        <div class="copy-label-wrap">
+          <div class="copy-tag">추가설명/라벨</div>
+          <div class="copy-desc">할인율, 가격, 기간, 라벨 등</div>
+        </div>
+        <textarea
+          class="copy-input"
+          id="sub2"
+          rows="2"
+          placeholder="예: ~50% 할인 / 10.1~10.31"
+        ></textarea>
+        <div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 텍스트 미리보기 (라이브) -->
+  <div class="step" style="margin-top:28px">
+    <div class="step-num" style="background:var(--blue)">✦</div>
+    <div class="step-label">텍스트 미리보기</div>
+  </div>
+
+  <div class="preview-wrapper">
+    <div class="preview-tabs">
+      <div class="pvtab active" onclick="switchPreview('clip')">쇼핑클립 A형<br><span style="font-weight:400;opacity:.6;font-size:10px">214×166</span></div>
+      <div class="pvtab" onclick="switchPreview('clipb')">쇼핑클립 B형<br><span style="font-weight:400;opacity:.6;font-size:10px">214×166</span></div>
+      <div class="pvtab" onclick="switchPreview('mobile')">모바일 메인 상단<br><span style="font-weight:400;opacity:.6;font-size:10px">720×350</span></div>
+      <div class="pvtab" onclick="switchPreview('trend')">트렌드픽업 E타입<br><span style="font-weight:400;opacity:.6;font-size:10px">750×776</span></div>
+    </div>
+
+    <!-- 1. 쇼핑클립 A형 -->
+    <div class="pv-panel active" id="pv_clip">
+      <div class="mock-clip">
+        <div class="mock-clip-text">
+          <div class="mock-clip-m1 mock-empty" id="prev_cl_m1">메인 카피 첫째 줄</div>
+          <div class="mock-clip-m2 mock-empty" id="prev_cl_m2">메인 카피 둘째 줄</div>
+        </div>
+        <div class="mock-img-circle">이미지<br>영역</div>
+      </div>
+      <div class="mock-side-info">
+        <div class="mock-info-tag">다나와</div>
+        <div class="mock-info-size">PC 쇼핑클립 A형</div>
+        <div class="mock-info-size" style="color:var(--ink3)">214 × 166</div>
+      </div>
+    </div>
+
+    <!-- 1-B. 쇼핑클립 B형 -->
+    <div class="pv-panel" id="pv_clipb">
+      <div class="mock-clip-b">
+        <div class="mock-img-circle">이미지<br>영역</div>
+        <div class="mock-clip-b-bottom">
+          <div class="mock-clip-b-extra mock-empty" id="prev_clb_s2">추가설명/라벨</div>
+          <div class="mock-clip-b-m1 mock-empty" id="prev_clb_m1">메인 카피 첫째 줄</div>
+          <div class="mock-clip-b-m2 mock-empty" id="prev_clb_m2">메인 카피 둘째 줄</div>
+        </div>
+      </div>
+      <div class="mock-side-info">
+        <div class="mock-info-tag">다나와</div>
+        <div class="mock-info-size">PC 쇼핑클립 B형</div>
+        <div class="mock-info-size" style="color:var(--ink3)">214 × 166</div>
+      </div>
+    </div>
+
+    <!-- 2. 모바일 메인 상단 -->
+    <div class="pv-panel" id="pv_mobile">
+      <div class="mock-mobile">
+        <div class="mock-mobile-text">
+          <div class="mock-mob-sub mock-empty" id="prev_mo_s1">서브 카피</div>
+          <div class="mock-mob-m1 mock-empty" id="prev_mo_m1">메인 카피 첫째 줄</div>
+          <div class="mock-mob-m2 mock-empty" id="prev_mo_m2">메인 카피 둘째 줄</div>
+          <div class="mock-mob-btn">보러가기 →</div>
+        </div>
+        <div class="mock-img-circle">이미지<br>영역</div>
+      </div>
+      <div class="mock-side-info">
+        <div class="mock-info-tag">다나와 모바일</div>
+        <div class="mock-info-size">모바일 메인 상단</div>
+        <div class="mock-info-size" style="color:var(--ink3)">720 × 350</div>
+      </div>
+    </div>
+
+    <!-- 3. 트렌드픽업 E타입 -->
+    <div class="pv-panel" id="pv_trend">
+      <div class="mock-trend">
+        <div class="mock-trend-sub mock-empty" id="prev_tr_s1">서브 카피</div>
+        <div class="mock-trend-m1 mock-empty" id="prev_tr_m1">메인 카피 첫째 줄</div>
+        <div class="mock-trend-m2 mock-empty" id="prev_tr_m2">메인 카피 둘째 줄</div>
+        <div class="mock-trend-extra mock-empty" id="prev_tr_s2">추가설명/라벨</div>
+        <div class="mock-img-circle">이미지<br>영역</div>
+      </div>
+      <div class="mock-side-info">
+        <div class="mock-info-tag">에누리</div>
+        <div class="mock-info-size">트렌드픽업 E타입</div>
+        <div class="mock-info-size" style="color:var(--ink3)">750 × 776</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 배너 선택 -->
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-label">배너 선택</div>
+    <div class="step-sub">해당하는 배너를 모두 선택해주세요</div>
+  </div>
+
+  <div class="card">
+
+    <!-- 플랫폼 탭 -->
+    <div class="platform-tabs">
+      <div class="ptab active" onclick="switchPlatform('danawa')">
+        다나와
+        <span class="ptab-badge" id="badge_danawa">0</span>
+      </div>
+      <div class="ptab" onclick="switchPlatform('enuri')">
+        에누리
+        <span class="ptab-badge" id="badge_enuri">0</span>
+      </div>
+    </div>
+
+    <!-- 다나와 패널 -->
+    <div class="platform-panel active" id="panel_danawa">
+
+      <div class="banner-group">
+        <div class="group-title">PC · 모바일 공통</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="d1" data-platform="danawa" onchange="updateCount()">
+            <label for="d1"><div class="banner-check"></div>
+              <div class="banner-name">기획전 메인</div>
+              <div class="banner-size">540 × 540</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d2" data-platform="danawa" onchange="updateCount()">
+            <label for="d2"><div class="banner-check"></div>
+              <div class="banner-name">콘텐츠</div>
+              <div class="banner-size">640 × 384</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d3" data-platform="danawa" onchange="updateCount()">
+            <label for="d3"><div class="banner-check"></div>
+              <div class="banner-name">상품리스트 상단 배너</div>
+              <div class="banner-size">사이즈 미정</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d4" data-platform="danawa" onchange="updateCount()">
+            <label for="d4"><div class="banner-check"></div>
+              <div class="banner-name">게시판 썸네일</div>
+              <div class="banner-size">600 × 450</div></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-group">
+        <div class="group-title">PC 전용</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="d5" data-platform="danawa" onchange="updateCount()">
+            <label for="d5"><div class="banner-check"></div>
+              <div class="banner-name">쇼핑클립 A형</div>
+              <div class="banner-size">214 × 166</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d6" data-platform="danawa" onchange="updateCount()">
+            <label for="d6"><div class="banner-check"></div>
+              <div class="banner-name">쇼핑클립 B형</div>
+              <div class="banner-size">214 × 166</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d7" data-platform="danawa" onchange="updateCount()">
+            <label for="d7"><div class="banner-check"></div>
+              <div class="banner-name">상품목록 우측</div>
+              <div class="banner-size">210 × 165</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d8" data-platform="danawa" onchange="updateCount()">
+            <label for="d8"><div class="banner-check"></div>
+              <div class="banner-name">GNB</div>
+              <div class="banner-size">245 × 220</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d9" data-platform="danawa" onchange="updateCount()">
+            <label for="d9"><div class="banner-check"></div>
+              <div class="banner-name">상품목록 LNB 하단</div>
+              <div class="banner-size">148 × 34</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d10" data-platform="danawa" onchange="updateCount()">
+            <label for="d10"><div class="banner-check"></div>
+              <div class="banner-name">컴퓨터 섹션 기획전</div>
+              <div class="banner-size">225 × 80</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d11" data-platform="danawa" onchange="updateCount()">
+            <label for="d11"><div class="banner-check"></div>
+              <div class="banner-name">컴퓨터 섹션 메인</div>
+              <div class="banner-size">274 × 250</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d12" data-platform="danawa" onchange="updateCount()">
+            <label for="d12"><div class="banner-check"></div>
+              <div class="banner-name">메인 뉴스룸 썸네일</div>
+              <div class="banner-size">600 × 350</div></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-group">
+        <div class="group-title">모바일 전용</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="d13" data-platform="danawa" onchange="updateCount()">
+            <label for="d13"><div class="banner-check"></div>
+              <div class="banner-name">메인 상단</div>
+              <div class="banner-size">720 × 350</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d14" data-platform="danawa" onchange="updateCount()">
+            <label for="d14"><div class="banner-check"></div>
+              <div class="banner-name">앱푸시 배너</div>
+              <div class="banner-size">720 × 350</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="d15" data-platform="danawa" onchange="updateCount()">
+            <label for="d15"><div class="banner-check"></div>
+              <div class="banner-name">메인 바텀광고</div>
+              <div class="banner-size">720 × 414</div></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panel_danawa -->
+
+    <!-- 에누리 패널 -->
+    <div class="platform-panel" id="panel_enuri">
+
+      <div class="banner-group">
+        <div class="group-title">PC · 모바일 공통</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="e1" data-platform="enuri" onchange="updateCount()">
+            <label for="e1"><div class="banner-check"></div>
+              <div class="banner-name">PICK 썸네일</div>
+              <div class="banner-size">사이즈 미정</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e2" data-platform="enuri" onchange="updateCount()">
+            <label for="e2"><div class="banner-check"></div>
+              <div class="banner-name">토스트배너</div>
+              <div class="banner-size">750 × 392</div></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-group">
+        <div class="group-title">PC 전용</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="e3" data-platform="enuri" onchange="updateCount()">
+            <label for="e3"><div class="banner-check"></div>
+              <div class="banner-name">트렌드픽업 E타입</div>
+              <div class="banner-size">750 × 776</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e4" data-platform="enuri" onchange="updateCount()">
+            <label for="e4"><div class="banner-check"></div>
+              <div class="banner-name">EMP 배너</div>
+              <div class="banner-size">230 × 140</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e5" data-platform="enuri" onchange="updateCount()">
+            <label for="e5"><div class="banner-check"></div>
+              <div class="banner-name">GNB</div>
+              <div class="banner-size">259 × 419</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e6" data-platform="enuri" onchange="updateCount()">
+            <label for="e6"><div class="banner-check"></div>
+              <div class="banner-name">검색창</div>
+              <div class="banner-size">270 × 290</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e7" data-platform="enuri" onchange="updateCount()">
+            <label for="e7"><div class="banner-check"></div>
+              <div class="banner-name">상품창 상세상단</div>
+              <div class="banner-size">1280 × 90</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e8" data-platform="enuri" onchange="updateCount()">
+            <label for="e8"><div class="banner-check"></div>
+              <div class="banner-name">홈탑</div>
+              <div class="banner-size">1280 × 56</div></label>
+          </div>
+          <div class="banner-item">
+            <input type="checkbox" id="e9" data-platform="enuri" onchange="updateCount()">
+            <label for="e9"><div class="banner-check"></div>
+              <div class="banner-name">메인 윙</div>
+              <div class="banner-size">100 × 200</div></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-group">
+        <div class="group-title">모바일 전용</div>
+        <div class="banner-grid">
+          <div class="banner-item">
+            <input type="checkbox" id="e10" data-platform="enuri" onchange="updateCount()">
+            <label for="e10"><div class="banner-check"></div>
+              <div class="banner-name">앱푸시</div>
+              <div class="banner-size">640 × 360</div></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panel_enuri -->
+
+  </div><!-- /배너선택 card -->
+
+  <!-- ④ 배너에 넣을 이미지 -->
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-label">배너에 넣을 이미지</div>
+    <div class="step-sub">사용할 이미지 정보</div>
+  </div>
+
+  <div class="card textarea-card">
+    <div class="textarea-section">
+      <div class="textarea-label">이미지 URL / 상품코드</div>
+      <textarea class="textarea-field" id="image_req" rows="4"
+        placeholder="• URL: https://...&#10;• 상품코드: "></textarea>
+    </div>
+    <div class="info-note">
+      <strong>사용 가능한 이미지 출처</strong><br>
+      상품블로그 썸네일 · 제휴쇼핑몰 썸네일 · 게티이미지뱅크(gettyimagesbank.com) · 클립아트코리아(clipartkorea.co.kr)<br>
+      <span style="color:#B87800">※ 그 외 출처의 이미지는 저작권 확인이 필요합니다.</span>
+    </div>
+  </div>
+
+  <!-- ⑤ 기타 배너 -->
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-label">기타 배너</div>
+    <div class="step-sub">위 목록에 없는 배너</div>
+  </div>
+
+  <div class="card textarea-card">
+    <div class="textarea-section">
+      <div class="textarea-label">배너 종류 / 노출 위치</div>
+      <textarea class="textarea-field" id="etc_banner" rows="3"
+        placeholder="배너 종류와 노출 위치를 구체적으로 작성해주세요.&#10;예: 검색결과 페이지 상단 우측 / 300×250"></textarea>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- 위치 미리보기 모달 -->
+<div class="pos-overlay" id="posOverlay" onclick="closePosModal(event)">
+  <div class="pos-modal" id="posModal">
+    <div class="pos-modal-head">
+      <div>
+        <h3 id="posModalTitle">배너 위치 미리보기</h3>
+        <div class="pos-modal-meta" id="posModalMeta"></div>
+      </div>
+      <button class="pos-modal-close" onclick="closePosModal()">✕</button>
+    </div>
+    <div class="pos-modal-body" id="posModalBody"></div>
+  </div>
+</div>
+
+<!-- 제출 바 -->
+<div class="submit-bar">
+  <div class="submit-summary">
+    현재 선택된 배너: <strong id="submitCount">0</strong>개
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn-reset" onclick="resetAll()">초기화</button>
+    <button class="btn-submit" onclick="submitForm()">
+      ✉ 의뢰서 제출
+    </button>
+  </div>
+</div>
+
+<!-- 성공 오버레이 -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <div class="modal-title">의뢰서가 제출되었습니다</div>
+    <div class="modal-sub">콘텐츠디자인팀에서 확인 후<br>작업을 진행할 예정입니다.</div>
+    <div class="modal-id" id="modal_id"></div>
+    <button class="btn-new" onclick="resetAll();document.getElementById('overlay').classList.remove('open')">새 의뢰서 작성</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  배너 설정 (위치 이미지 경로를 여기서 지정)
+//  실제 JPG가 있으면 previewImg 경로를 지정하세요.
+//  예: previewImg: 'previews/d1.jpg'
+// ─────────────────────────────────────────
+const BANNER_CONFIGS = {
+  // 다나와
+  d1:  { name:'PC/모바일 기획전 메인', size:'540×540', platform:'both', previewImg:'',
+         layout:'both', position:'content-center', desc:'상품 기획전 페이지 메인 영역 중앙에 노출됩니다.' },
+  d2:  { name:'PC/모바일 콘텐츠', size:'640×384', platform:'both', previewImg:'',
+         layout:'both', position:'content-center', desc:'콘텐츠 상세 페이지 본문 영역에 노출됩니다.' },
+  d3:  { name:'PC/모바일 상품리스트 상단 배너', size:'사이즈 미정', platform:'both', previewImg:'',
+         layout:'both', position:'list-top', desc:'상품 목록 페이지 최상단에 노출됩니다.' },
+  d4:  { name:'PC/모바일 게시판 썸네일', size:'600×450', platform:'both', previewImg:'',
+         layout:'both', position:'thumb', desc:'게시판 목록의 썸네일 이미지로 표시됩니다.' },
+  d5:  { name:'PC 쇼핑클립 A형', size:'214×166', platform:'pc', previewImg:'',
+         layout:'pc', position:'content-right', desc:'쇼핑클립 섹션 A 타입으로 우측 열에 노출됩니다.' },
+  d6:  { name:'PC 쇼핑클립 B형', size:'214×166', platform:'pc', previewImg:'',
+         layout:'pc', position:'content-right', desc:'쇼핑클립 섹션 B 타입으로 우측 열에 노출됩니다.' },
+  d7:  { name:'PC 상품목록 우측', size:'210×165', platform:'pc', previewImg:'',
+         layout:'pc', position:'sidebar', desc:'상품 목록 페이지 우측 사이드바에 노출됩니다.' },
+  d8:  { name:'PC GNB', size:'245×220', platform:'pc', previewImg:'',
+         layout:'pc', position:'gnb', desc:'전체 내비게이션 바(GNB) 영역에 노출됩니다.' },
+  d9:  { name:'PC 상품목록 LNB 하단', size:'148×34', platform:'pc', previewImg:'',
+         layout:'pc', position:'lnb', desc:'좌측 카테고리 네비게이션(LNB) 하단에 노출됩니다.' },
+  d10: { name:'컴퓨터 섹션 기획전', size:'225×80', platform:'pc', previewImg:'',
+         layout:'pc', position:'section-banner', desc:'컴퓨터 카테고리 섹션 기획전 배너로 노출됩니다.' },
+  d11: { name:'컴퓨터 섹션 메인', size:'274×250', platform:'pc', previewImg:'',
+         layout:'pc', position:'section-main', desc:'컴퓨터 카테고리 메인 영역에 노출됩니다.' },
+  d12: { name:'PC 메인 뉴스룸 썸네일', size:'600×350', platform:'pc', previewImg:'',
+         layout:'pc', position:'newsroom', desc:'다나와 메인 하단 뉴스룸 섹션 썸네일로 노출됩니다.' },
+  d13: { name:'모바일 메인 상단', size:'720×350', platform:'mobile', previewImg:'',
+         layout:'mobile', position:'mobile-top', desc:'다나와 앱 메인 홈 화면 최상단 배너로 노출됩니다.' },
+  d14: { name:'모바일 앱푸시 배너', size:'720×350', platform:'mobile', previewImg:'',
+         layout:'mobile', position:'push', desc:'앱 푸시 알림과 함께 전송되는 이미지 배너입니다.' },
+  d15: { name:'모바일 메인 바텀광고', size:'720×414', platform:'mobile', previewImg:'',
+         layout:'mobile', position:'mobile-bottom', desc:'모바일 메인 화면 하단 고정 영역에 노출됩니다.' },
+  // 에누리
+  e1:  { name:'PC/모바일 PICK 썸네일', size:'사이즈 미정', platform:'both', previewImg:'',
+         layout:'both', position:'pick', desc:'에누리 PICK 추천 콘텐츠의 썸네일로 표시됩니다.' },
+  e2:  { name:'PC/모바일 토스트배너', size:'750×392', platform:'both', previewImg:'',
+         layout:'both', position:'toast', desc:'화면 하단에서 올라오는 토스트 팝업 배너입니다.' },
+  e3:  { name:'PC 트렌드픽업 E타입', size:'750×776', platform:'pc', previewImg:'',
+         layout:'pc', position:'trend', desc:'트렌드픽업 E타입으로 콘텐츠 상세 페이지에 노출됩니다.' },
+  e4:  { name:'PC EMP 배너', size:'230×140', platform:'pc', previewImg:'',
+         layout:'pc', position:'emp', desc:'에누리 EMP 광고 영역 배너입니다.' },
+  e5:  { name:'PC GNB', size:'259×419', platform:'pc', previewImg:'',
+         layout:'pc', position:'gnb', desc:'에누리 전체 내비게이션 바(GNB) 영역에 노출됩니다.' },
+  e6:  { name:'PC 검색창', size:'270×290', platform:'pc', previewImg:'',
+         layout:'pc', position:'search', desc:'검색창 주변 광고 영역에 노출됩니다.' },
+  e7:  { name:'PC 상품창 상세상단', size:'1280×90', platform:'pc', previewImg:'',
+         layout:'pc', position:'detail-top', desc:'상품 상세 페이지 최상단 띠배너로 노출됩니다.' },
+  e8:  { name:'PC 홈탑', size:'1280×56', platform:'pc', previewImg:'',
+         layout:'pc', position:'home-top', desc:'에누리 메인 홈 최상단 슬림 배너로 노출됩니다.' },
+  e9:  { name:'PC 메인 윙', size:'100×200', platform:'pc', previewImg:'',
+         layout:'pc', position:'wing', desc:'메인 페이지 좌/우 날개(윙) 배너로 노출됩니다.' },
+  e10: { name:'모바일 앱푸시', size:'640×360', platform:'mobile', previewImg:'',
+         layout:'mobile', position:'push', desc:'에누리 앱 푸시 알림과 함께 전송되는 이미지 배너입니다.' },
+};
+
+// ─────────────────────────────────────────
+//  글자수 카운터
+// ─────────────────────────────────────────
+function updateCounter(inputId, counterId, max) {
+  const el = document.getElementById(inputId);
+  const cnt = document.getElementById(counterId);
+  const len = el.value.length;
+  cnt.textContent = len + '/' + max;
+  cnt.className = 'char-counter ' + (len === 0 ? '' : len < max ? 'ok' : len === max ? 'warn' : 'over');
+  updateLivePreview();
+}
+
+// ─────────────────────────────────────────
+//  라이브 텍스트 미리보기
+// ─────────────────────────────────────────
+function updateLivePreview() {
+  const m1 = document.getElementById('main1')?.value || '';
+  const m2 = document.getElementById('main2')?.value || '';
+  const s1 = document.getElementById('sub1')?.value  || '';
+  const s2 = document.getElementById('sub2')?.value  || '';
+
+  const fields = [
+    // 쇼핑클립 A형
+    ['prev_cl_m1', m1, '메인 카피 첫째 줄'],
+    ['prev_cl_m2', m2, '메인 카피 둘째 줄'],
+    // 쇼핑클립 B형
+    ['prev_clb_m1', m1, '메인 카피 첫째 줄'],
+    ['prev_clb_m2', m2, '메인 카피 둘째 줄'],
+    ['prev_clb_s2', s2, '추가설명/라벨'],
+    // 모바일 메인 상단
+    ['prev_mo_s1', s1, '서브 카피'],
+    ['prev_mo_m1', m1, '메인 카피 첫째 줄'],
+    ['prev_mo_m2', m2, '메인 카피 둘째 줄'],
+    // 트렌드픽업 E타입
+    ['prev_tr_s1', s1, '서브 카피'],
+    ['prev_tr_m1', m1, '메인 카피 첫째 줄'],
+    ['prev_tr_m2', m2, '메인 카피 둘째 줄'],
+    ['prev_tr_s2', s2, '추가설명/라벨'],
+  ];
+
+  fields.forEach(([id, val, placeholder]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (val) {
+      el.textContent = val;
+      el.classList.remove('mock-empty');
+    } else {
+      el.textContent = placeholder;
+      el.classList.add('mock-empty');
+    }
+  });
+}
+
+// 카피 입력 필드에 실시간 연결
+['main1','main2','sub1','sub2'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updateLivePreview);
+});
+
+// ─────────────────────────────────────────
+//  미리보기 탭 전환
+// ─────────────────────────────────────────
+function switchPreview(type) {
+  document.querySelectorAll('.pvtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pv-panel').forEach(p => p.classList.remove('active'));
+  const idx = {clip:0, clipb:1, mobile:2, trend:3}[type] ?? 0;
+  document.querySelectorAll('.pvtab')[idx].classList.add('active');
+  document.getElementById('pv_' + type).classList.add('active');
+}
+
+// ─────────────────────────────────────────
+//  배너 위치 미리보기 초기화 (눈 아이콘 추가)
+// ─────────────────────────────────────────
+function initPreviewButtons() {
+  Object.keys(BANNER_CONFIGS).forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    const item = input.closest('.banner-item');
+    if (!item) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'banner-preview-btn';
+    btn.title = '위치 미리보기';
+    btn.innerHTML = '👁';
+    btn.onclick = (e) => { e.stopPropagation(); showPositionPreview(id); };
+    item.appendChild(btn);
+  });
+}
+
+// ─────────────────────────────────────────
+//  위치 미리보기 모달
+// ─────────────────────────────────────────
+function showPositionPreview(id) {
+  const cfg = BANNER_CONFIGS[id];
+  if (!cfg) return;
+
+  document.getElementById('posModalTitle').textContent = cfg.name;
+  document.getElementById('posModalMeta').textContent = cfg.size + ' · ' + (cfg.platform === 'both' ? 'PC · 모바일' : cfg.platform === 'pc' ? 'PC' : '모바일');
+
+  const body = document.getElementById('posModalBody');
+
+  // 실제 이미지가 있으면 표시
+  if (cfg.previewImg) {
+    body.innerHTML = `
+      <div class="pos-img-wrap"><img src="${cfg.previewImg}" alt="${cfg.name} 위치"></div>
+      <div class="ld-note">${cfg.desc}</div>`;
+  } else {
+    // 플레이스홀더 레이아웃 다이어그램
+    body.innerHTML = buildLayoutDiagram(id, cfg);
+  }
+  document.getElementById('posOverlay').classList.add('open');
+}
+
+function buildLayoutDiagram(id, cfg) {
+  const pos = cfg.position;
+  let html = '';
+
+  if (cfg.layout === 'mobile' || pos === 'push') {
+    html = buildMobileLayout(pos, cfg);
+  } else if (cfg.layout === 'both') {
+    html = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        ${buildPCLayoutHtml(pos, cfg)}
+        ${buildMobileLayoutHtml(pos, cfg)}
+      </div>`;
+  } else {
+    html = `<div style="margin-bottom:12px">${buildPCLayoutHtml(pos, cfg)}</div>`;
+  }
+
+  return html + `
+    <div class="ld-note">
+      <strong>${cfg.name} (${cfg.size})</strong><br>
+      ${cfg.desc}<br>
+      <span style="color:var(--blue)">▶ 실제 스크린샷이 있으면 BANNER_CONFIGS의 previewImg 경로를 지정하세요.</span>
+    </div>`;
+}
+
+function buildPCLayoutHtml(pos, cfg) {
+  const highlights = getHighlightStyle(pos, 'pc');
+  return `
+    <div>
+      <div style="font-size:10px;color:var(--ink3);margin-bottom:5px;font-weight:700">PC</div>
+      <div class="layout-diagram layout-pc">
+        <div class="ld-bar"><div class="ld-bar-dot"></div><div class="ld-bar-dot"></div><div class="ld-bar-dot"></div><div class="ld-url"></div></div>
+        <div class="ld-nav"><div class="ld-nav-item"></div><div class="ld-nav-item"></div><div class="ld-nav-item"></div><div class="ld-nav-item"></div></div>
+        <div class="ld-content" style="${highlights.containerStyle}">
+          ${highlights.pcHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildMobileLayoutHtml(pos, cfg) {
+  const highlights = getHighlightStyle(pos, 'mobile');
+  return `
+    <div>
+      <div style="font-size:10px;color:var(--ink3);margin-bottom:5px;font-weight:700">모바일</div>
+      <div style="display:flex;justify-content:center">
+        <div class="layout-diagram layout-mobile">
+          <div class="ld-bar" style="height:20px;background:#C8C8D8"></div>
+          <div class="ld-nav" style="height:28px"><div class="ld-nav-item" style="width:60px"></div></div>
+          <div class="ld-content" style="padding:8px;${highlights.containerStyle}">
+            ${highlights.mobileHtml}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildMobileLayout(pos, cfg) {
+  const highlights = getHighlightStyle(pos, 'mobile');
+  return `
+    <div style="margin-bottom:12px;display:flex;justify-content:center">
+      <div>
+        <div style="font-size:10px;color:var(--ink3);margin-bottom:5px;font-weight:700;text-align:center">모바일 앱</div>
+        <div class="layout-diagram layout-mobile" style="width:260px">
+          <div class="ld-bar" style="height:20px;background:#C8C8D8"></div>
+          <div class="ld-nav" style="height:32px"><div class="ld-nav-item" style="width:80px"></div></div>
+          <div class="ld-content" style="padding:10px;${highlights.containerStyle}">
+            ${highlights.mobileHtml}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function getHighlightStyle(pos, device) {
+  const label = `<div class="ld-highlight-label">여기에<br>노출</div>`;
+  const configs = {
+    'home-top':     { pc: `grid-template-rows:18px 1fr`, pcHtml: `<div class="ld-block ld-highlight" style="height:18px">${label}</div><div class="ld-block" style="flex:1"></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:16px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'gnb':          { pc: `grid-template-columns:200px 1fr`, pcHtml: `<div class="ld-block ld-highlight">${label}</div><div class="ld-block"></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:48px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'detail-top':   { pc: ``, pcHtml:`<div class="ld-block ld-highlight" style="height:16px">${label}</div><div class="ld-block" style="flex:1"></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:14px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'mobile-top':   { mobile:``, mobileHtml:`<div class="ld-block ld-highlight" style="height:72px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'mobile-bottom':{ mobile:``, mobileHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:56px">${label}</div>` },
+    'content-center':{ pc:``, pcHtml:`<div style="display:grid;grid-template-columns:1fr 3fr 1fr;gap:6px;height:100%"><div class="ld-block"></div><div class="ld-block ld-highlight">${label}</div><div class="ld-block"></div></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:80px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'content-right':{ pc:``, pcHtml:`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;height:100%"><div class="ld-block"></div><div class="ld-block"></div><div class="ld-block ld-highlight">${label}</div></div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:60px">${label}</div>` },
+    'sidebar':      { pc:``, pcHtml:`<div style="display:grid;grid-template-columns:3fr 1fr;gap:6px;height:100%"><div class="ld-block"></div><div class="ld-block ld-highlight">${label}</div></div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:50px">${label}</div>` },
+    'lnb':          { pc:``, pcHtml:`<div style="display:grid;grid-template-columns:1fr 3fr;gap:6px;height:100%"><div style="display:flex;flex-direction:column;gap:4px"><div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:14px">${label}</div></div><div class="ld-block"></div></div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div>` },
+    'list-top':     { pc:``, pcHtml:`<div class="ld-block ld-highlight" style="height:24px">${label}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;flex:1"><div class="ld-block"></div><div class="ld-block"></div><div class="ld-block"></div></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:20px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'toast':        { pc:``, pcHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:36px">${label}</div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:48px">${label}</div>` },
+    'wing':         { pc:``, pcHtml:`<div style="display:grid;grid-template-columns:40px 1fr 40px;gap:4px;height:100%"><div class="ld-block ld-highlight">${label}</div><div class="ld-block"></div><div class="ld-block ld-highlight">${label}</div></div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div>` },
+    'search':       { pc:``, pcHtml:`<div style="display:grid;grid-template-columns:3fr 1fr;gap:6px;height:100%"><div class="ld-block ld-highlight">${label}</div><div class="ld-block"></div></div>`, mobileHtml:`<div class="ld-block ld-highlight" style="height:50px">${label}</div><div class="ld-block" style="flex:1"></div>` },
+    'push':         { mobile:``, mobileHtml:`<div style="border:2px solid var(--blue);border-radius:8px;padding:6px;background:#fff"><div class="ld-highlight" style="height:60px;border-radius:4px">${label}</div><div class="ld-block" style="height:10px;margin-top:4px"></div></div><div class="ld-block" style="flex:1"></div>` },
+    'newsroom':     { pc:``, pcHtml:`<div class="ld-block" style="flex:1"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><div class="ld-block ld-highlight" style="height:36px">${label}</div><div class="ld-block" style="height:36px"></div></div>`, mobileHtml:`<div class="ld-block" style="flex:1"></div><div class="ld-block ld-highlight" style="height:36px">${label}</div>` },
+  };
+
+  const def = configs[pos] || { pcHtml:`<div class="ld-block ld-highlight" style="flex:1">${label}</div>`, mobileHtml:`<div class="ld-block ld-highlight" style="flex:1">${label}</div>` };
+  return {
+    containerStyle: def[device] || def.pc || '',
+    pcHtml: def.pcHtml || `<div class="ld-block ld-highlight" style="flex:1">${label}</div>`,
+    mobileHtml: def.mobileHtml || `<div class="ld-block ld-highlight" style="flex:1">${label}</div>`,
+  };
+}
+
+function closePosModal(e) {
+  if (!e || e.target === document.getElementById('posOverlay')) {
+    document.getElementById('posOverlay').classList.remove('open');
+  }
+}
+
+// ─────────────────────────────────────────
+//  플랫폼 탭 전환
+// ─────────────────────────────────────────
+function switchPlatform(platform) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.platform-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="switchPlatform('${platform}')"]`).classList.add('active');
+  document.getElementById('panel_' + platform).classList.add('active');
+}
+
+// ─────────────────────────────────────────
+//  배너 카운트 업데이트
+// ─────────────────────────────────────────
+function updateCount() {
+  const danawa = [...document.querySelectorAll('input[data-platform=danawa]:checked')].length;
+  const enuri  = [...document.querySelectorAll('input[data-platform=enuri]:checked')].length;
+  const total  = danawa + enuri;
+  document.getElementById('badge_danawa').textContent = danawa;
+  document.getElementById('badge_enuri').textContent  = enuri;
+  document.getElementById('submitCount').textContent  = total;
+  document.getElementById('headerCount').textContent  = '배너 ' + total + '개 선택';
+}
+
+// ─────────────────────────────────────────
+//  폼 제출
+// ─────────────────────────────────────────
+function submitForm() {
+  const dept  = document.getElementById('f_dept').value;
+  const name  = document.getElementById('f_name').value.trim();
+  const title = document.getElementById('f_title').value.trim();
+  const main1 = document.getElementById('main1').value.trim();
+  if (!dept || !name || !title || !main1) {
+    alert('기본 정보와 메인 카피 1줄은 필수 항목입니다.');
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  const total = [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].length;
+  if (total === 0) { alert('배너를 1개 이상 선택해주세요.'); return; }
+  const id = 'BNR-' + String(Date.now()).slice(-6);
+  document.getElementById('modal_id').textContent = id;
+  document.getElementById('overlay').classList.add('open');
+}
+
+// ─────────────────────────────────────────
+//  초기화
+// ─────────────────────────────────────────
+function resetAll() {
+  ['f_dept','f_name','f_title','main1','main2','sub1','sub2','etc_banner','image_req']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  ['cnt1','cnt2'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.textContent = '0/12'; el.className = 'char-counter'; }
+  });
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  updateCount();
+  updateLivePreview();
+}
+
+// ─────────────────────────────────────────
+//  초기 실행
+// ─────────────────────────────────────────
+initPreviewButtons();
+updateLivePreview();
+</script>
+</body>
+</html>
