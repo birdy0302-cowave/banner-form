@@ -1293,8 +1293,15 @@ select.field-input{cursor:pointer;appearance:none;background-image:url("data:ima
 
 <!-- 제출 바 -->
 <div class="submit-bar">
-  <div class="submit-summary">
-    현재 선택된 배너: <strong id="submitCount">0</strong>개
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="submit-summary">
+      현재 선택된 배너: <strong id="submitCount">0</strong>개
+    </div>
+    <button id="recentUrlBtn"
+      onclick="showRecentUrl()"
+      style="display:none;padding:6px 14px;background:var(--blue-dim);color:var(--blue);border:1.5px solid var(--blue-mid);border-radius:6px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
+      🔗 의뢰서 URL 확인
+    </button>
   </div>
   <div style="display:flex;gap:10px">
     <button class="btn-reset" onclick="resetAll()">초기화</button>
@@ -1304,15 +1311,51 @@ select.field-input{cursor:pointer;appearance:none;background-image:url("data:ima
   </div>
 </div>
 
-<!-- 성공 오버레이 -->
-<div class="overlay" id="overlay">
-  <div class="modal">
+<!-- URL 공유 오버레이 -->
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <div class="modal" style="max-width:520px">
     <div class="modal-icon">✅</div>
-    <div class="modal-title">의뢰서가 제출되었습니다</div>
-    <div class="modal-sub">콘텐츠디자인팀에서 확인 후<br>작업을 진행할 예정입니다.</div>
-    <div class="modal-id" id="modal_id"></div>
-    <button class="btn-new" onclick="resetAll();document.getElementById('overlay').classList.remove('open')">새 의뢰서 작성</button>
+    <div class="modal-title">의뢰서 URL이 생성되었습니다</div>
+    <div class="modal-sub">URL을 복사해서 기존 요청서에 첨부하거나<br>작업자에게 직접 전달하세요.</div>
+
+    <!-- URL 표시 + 복사 -->
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <input
+        type="text"
+        id="shareUrl"
+        readonly
+        onclick="this.select()"
+        style="flex:1;padding:10px 14px;border:1.5px solid var(--blue-mid);border-radius:8px;font-size:11px;color:var(--ink2);background:var(--blue-dim);outline:none;font-family:monospace;cursor:text"
+      >
+      <button onclick="copyUrl()" id="copyBtn"
+        style="padding:10px 18px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s;flex-shrink:0">
+        복사
+      </button>
+    </div>
+
+    <div id="copyDone"
+      style="display:none;font-size:12px;color:var(--green);margin-bottom:10px;font-weight:600;text-align:left">
+      ✓ 클립보드에 복사되었습니다
+    </div>
+
+    <div style="background:#FFF9EC;border:1px solid #F5D48A;border-radius:8px;padding:11px 14px;font-size:12px;color:#7A5500;text-align:left;margin-bottom:20px;line-height:1.7">
+      이 URL은 브라우저를 닫은 후에도 하단의 <strong>의뢰서 URL 확인</strong> 버튼으로 언제든 다시 볼 수 있습니다.
+    </div>
+
+    <button class="btn-new" onclick="closeOverlay()">닫기</button>
   </div>
+</div>
+
+<!-- 작업자 보기 모드 배너 -->
+<div id="viewerBanner" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:45;background:#1a2d45;color:#fff;padding:10px 24px;font-size:13px;display:none;align-items:center;justify-content:space-between;gap:12px">
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px">작업자 보기</span>
+    <span style="color:rgba(255,255,255,.8)">요청자가 공유한 의뢰서입니다. 내용을 확인하세요.</span>
+  </div>
+  <button onclick="document.getElementById('viewerBanner').style.display='none'"
+    style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:4px 12px;border-radius:5px;cursor:pointer;font-family:inherit;font-size:12px">
+    닫기
+  </button>
 </div>
 
 <script>
@@ -1619,7 +1662,7 @@ function updateCount() {
 }
 
 // ─────────────────────────────────────────
-//  폼 제출
+//  폼 제출 → URL 생성
 // ─────────────────────────────────────────
 function submitForm() {
   const dept  = document.getElementById('f_dept').value;
@@ -1633,9 +1676,176 @@ function submitForm() {
   }
   const total = [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].length;
   if (total === 0) { alert('배너를 1개 이상 선택해주세요.'); return; }
-  const id = 'BNR-' + String(Date.now()).slice(-6);
-  document.getElementById('modal_id').textContent = id;
+
+  // 모든 항목 내용 수집
+  const data = {
+    dept,
+    name,
+    title,
+    main1,
+    main2:      document.getElementById('main2').value,
+    sub1:       document.getElementById('sub1').value,
+    sub2:       document.getElementById('sub2').value,
+    image_req:  document.getElementById('image_req').value,
+    etc_banner: document.getElementById('etc_banner').value,
+    banners:    [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].map(cb => cb.id),
+    ts:         Date.now()
+  };
+
+  // JSON → base64 인코딩 → URL 해시에 삽입
+  const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+  const shareUrl = window.location.href.split('#')[0] + '#' + encoded;
+
+  document.getElementById('shareUrl').value = shareUrl;
+  document.getElementById('copyDone').style.display = 'none';
   document.getElementById('overlay').classList.add('open');
+}
+
+// ─────────────────────────────────────────
+//  오버레이 닫기 (바깥 클릭 포함)
+// ─────────────────────────────────────────
+function closeOverlay(e) {
+  if (!e || e.target === document.getElementById('overlay')) {
+    document.getElementById('overlay').classList.remove('open');
+  }
+}
+
+// ─────────────────────────────────────────
+//  폼 제출 → URL 생성
+// ─────────────────────────────────────────
+function submitForm() {
+  const dept  = document.getElementById('f_dept').value;
+  const name  = document.getElementById('f_name').value.trim();
+  const title = document.getElementById('f_title').value.trim();
+  const main1 = document.getElementById('main1').value.trim();
+  if (!dept || !name || !title || !main1) {
+    alert('기본 정보와 메인 카피 1줄은 필수 항목입니다.');
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  const total = [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].length;
+  if (total === 0) { alert('배너를 1개 이상 선택해주세요.'); return; }
+
+  const data = {
+    dept,
+    name,
+    title,
+    main1,
+    main2:      document.getElementById('main2').value,
+    sub1:       document.getElementById('sub1').value,
+    sub2:       document.getElementById('sub2').value,
+    image_req:  document.getElementById('image_req').value,
+    etc_banner: document.getElementById('etc_banner').value,
+    banners:    [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].map(cb => cb.id),
+    ts:         Date.now()
+  };
+
+  const encoded  = btoa(encodeURIComponent(JSON.stringify(data)));
+  const shareUrl = window.location.href.split('#')[0] + '#' + encoded;
+
+  // localStorage에 저장 → 브라우저 닫혀도 복원 가능
+  try { localStorage.setItem('lastBannerUrl', shareUrl); } catch(e) {}
+
+  // URL 확인 버튼 표시
+  const btn = document.getElementById('recentUrlBtn');
+  if (btn) btn.style.display = 'inline-flex';
+
+  document.getElementById('shareUrl').value = shareUrl;
+  document.getElementById('copyDone').style.display = 'none';
+  document.getElementById('overlay').classList.add('open');
+}
+
+// ─────────────────────────────────────────
+//  URL 복사
+// ─────────────────────────────────────────
+function copyUrl() {
+  const url = document.getElementById('shareUrl').value;
+  navigator.clipboard.writeText(url).then(() => {
+    const done = document.getElementById('copyDone');
+    const btn  = document.getElementById('copyBtn');
+    done.style.display = 'block';
+    btn.textContent = '복사됨 ✓';
+    btn.style.background = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = '복사';
+      btn.style.background = 'var(--blue)';
+    }, 2500);
+  });
+}
+
+// ─────────────────────────────────────────
+//  최근 생성 URL 다시 보기
+// ─────────────────────────────────────────
+function showRecentUrl() {
+  let url = '';
+  try { url = localStorage.getItem('lastBannerUrl') || ''; } catch(e) {}
+  if (!url) { alert('저장된 URL이 없습니다.'); return; }
+  document.getElementById('shareUrl').value = url;
+  document.getElementById('copyDone').style.display = 'none';
+  document.getElementById('overlay').classList.add('open');
+}
+function loadFromUrl() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+
+  let data;
+  try {
+    data = JSON.parse(decodeURIComponent(atob(hash)));
+  } catch(e) { return; }
+
+  // 텍스트 필드 채우기
+  const map = {
+    f_dept:'dept', f_name:'name', f_title:'title',
+    main1:'main1', main2:'main2',
+    sub1:'sub1', sub2:'sub2',
+    image_req:'image_req', etc_banner:'etc_banner'
+  };
+  Object.entries(map).forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (el && data[key] !== undefined) el.value = data[key];
+  });
+
+  // 카운터 업데이트
+  updateCounter('main1','cnt1',12);
+  updateCounter('main2','cnt2',12);
+
+  // 체크박스 복원
+  if (data.banners && Array.isArray(data.banners)) {
+    data.banners.forEach(id => {
+      const cb = document.getElementById(id);
+      if (cb) cb.checked = true;
+    });
+  }
+
+  updateCount();
+  updateLivePreview();
+
+  // 작업자 안내 배너 표시
+  const banner = document.getElementById('viewerBanner');
+  if (banner) { banner.style.display = 'flex'; }
+
+  // 제출 바를 '작업자 모드'로 변경
+  const submitBar = document.querySelector('.submit-bar');
+  if (submitBar) {
+    submitBar.innerHTML = `
+      <div style="font-size:13px;color:var(--ink3)">
+        <span style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:8px">작업자 보기</span>
+        요청자: <strong style="color:var(--ink)">${data.name || ''}</strong>
+        &nbsp;·&nbsp; 부서: <strong style="color:var(--ink)">${data.dept || ''}</strong>
+      </div>
+      <div style="font-size:12px;color:var(--ink3)">읽기 전용 모드</div>
+    `;
+  }
+
+  // 입력 필드를 읽기 전용으로
+  document.querySelectorAll('.field-input, .copy-input, .textarea-field').forEach(el => {
+    el.setAttribute('readonly', true);
+    el.style.pointerEvents = 'none';
+    el.style.color = 'var(--ink2)';
+  });
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.disabled = true;
+  });
 }
 
 // ─────────────────────────────────────────
@@ -1649,6 +1859,8 @@ function resetAll() {
     if(el){ el.textContent = '0/12'; el.className = 'char-counter'; }
   });
   document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  // URL 해시 제거
+  history.replaceState(null, '', window.location.pathname);
   updateCount();
   updateLivePreview();
 }
@@ -1658,6 +1870,15 @@ function resetAll() {
 // ─────────────────────────────────────────
 initPreviewButtons();
 updateLivePreview();
+loadFromUrl();
+
+// localStorage에 저장된 URL이 있으면 버튼 표시
+try {
+  if (localStorage.getItem('lastBannerUrl') && !window.location.hash) {
+    const btn = document.getElementById('recentUrlBtn');
+    if (btn) btn.style.display = 'inline-flex';
+  }
+} catch(e) {}
 </script>
 </body>
 </html>
