@@ -1065,7 +1065,7 @@ select.field-input{cursor:pointer;appearance:none;background-image:url("data:ima
             <input type="checkbox" id="d3" data-platform="danawa" onchange="updateCount()">
             <label for="d3"><div class="banner-check"></div>
               <div class="banner-name">상품리스트 상단 배너</div>
-              <div class="banner-size">사이즈 미정</div></label>
+              <div class="banner-size">PC 802 / MO 640</div></label>
           </div>
           <div class="banner-item">
             <input type="checkbox" id="d4" data-platform="danawa" onchange="updateCount()">
@@ -1245,15 +1245,17 @@ select.field-input{cursor:pointer;appearance:none;background-image:url("data:ima
   <div class="step">
     <div class="step-num">4</div>
     <div class="step-label">배너에 넣을 이미지</div>
-    <div class="step-sub">사용할 이미지 정보</div>
+    <div class="step-sub">사용할 이미지 URL</div>
   </div>
 
   <div class="card textarea-card">
     <div class="textarea-section">
-      <div class="textarea-label">이미지 URL / 상품코드</div>
+      <div class="textarea-label">이미지 URL</div>
       <textarea class="textarea-field" id="image_req" rows="4"
-        placeholder="• URL: https://...&#10;• 상품코드: "></textarea>
+        placeholder="이미지 URL을 한 줄에 하나씩 입력하세요.&#10;https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
     </div>
+    <!-- 작업자 보기 시 URL 버튼으로 변환되는 영역 -->
+    <div id="image_req_viewer" style="display:none;padding:14px 20px;display:none;flex-wrap:wrap;gap:8px"></div>
     <div class="info-note">
       <strong>사용 가능한 이미지 출처</strong><br>
       상품블로그 썸네일 · 제휴쇼핑몰 썸네일 · 게티이미지뱅크(gettyimagesbank.com) · 클립아트코리아(clipartkorea.co.kr)<br>
@@ -1261,9 +1263,39 @@ select.field-input{cursor:pointer;appearance:none;background-image:url("data:ima
     </div>
   </div>
 
-  <!-- ⑤ 기타 배너 -->
+  <!-- ⑤ 참고 이미지 첨부 -->
   <div class="step">
     <div class="step-num">5</div>
+    <div class="step-label">참고 이미지 첨부</div>
+    <div class="step-sub">JPG · PNG · PSD 등 첨부 가능</div>
+  </div>
+
+  <div class="card textarea-card">
+    <div class="textarea-section" style="padding-bottom:0">
+      <!-- 업로드 영역 -->
+      <div id="attachDropZone"
+        onclick="document.getElementById('attachInput').click()"
+        style="border:2px dashed var(--line2);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:border-color .15s;margin-bottom:14px"
+        onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--line2)'"
+        ondragover="event.preventDefault();this.style.borderColor='var(--blue)'"
+        ondragleave="this.style.borderColor='var(--line2)'"
+        ondrop="handleFileDrop(event)">
+        <div style="font-size:24px;margin-bottom:6px">📎</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:4px">클릭하거나 파일을 여기에 드래그하세요</div>
+        <div style="font-size:11px;color:var(--ink3)">JPG, PNG, GIF, WEBP — 파일당 최대 2MB</div>
+        <div style="font-size:11px;color:var(--ink3)">PSD 등 대용량 파일은 파일명만 저장됩니다</div>
+      </div>
+      <input type="file" id="attachInput" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.psd,.ai,.pdf"
+        style="display:none" onchange="handleFileSelect(this.files)">
+
+      <!-- 첨부된 파일 목록 -->
+      <div id="attachList" style="display:flex;flex-wrap:wrap;gap:10px;padding-bottom:16px"></div>
+    </div>
+  </div>
+
+  <!-- ⑥ 기타 배너 -->
+  <div class="step">
+    <div class="step-num">6</div>
     <div class="step-label">기타 배너</div>
     <div class="step-sub">위 목록에 없는 배너</div>
   </div>
@@ -1360,7 +1392,7 @@ const BANNER_CONFIGS = {
          layout:'both', position:'content-center', desc:'상품 기획전 페이지 메인 영역 중앙에 노출됩니다.' },
   d2:  { name:'PC/모바일 콘텐츠', size:'640×384', platform:'both', previewImg:'',
          layout:'both', position:'content-center', desc:'콘텐츠 상세 페이지 본문 영역에 노출됩니다.' },
-  d3:  { name:'PC/모바일 상품리스트 상단 배너', size:'사이즈 미정', platform:'both', previewImg:'',
+  d3:  { name:'PC/모바일 상품리스트 상단 배너', size:'', platform:'both', previewImg:'',
          layout:'both', position:'list-top', desc:'상품 목록 페이지 최상단에 노출됩니다.' },
   d4:  { name:'PC/모바일 게시판 썸네일', size:'600×450', platform:'both', previewImg:'',
          layout:'both', position:'thumb', desc:'게시판 목록의 썸네일 이미지로 표시됩니다.' },
@@ -1688,6 +1720,7 @@ function submitForm() {
     sub2:       document.getElementById('sub2').value,
     image_req:  document.getElementById('image_req').value,
     etc_banner: document.getElementById('etc_banner').value,
+    attachments: window._attachments || [],
     banners:    [...document.querySelectorAll('input[type=checkbox][data-platform]:checked')].map(cb => cb.id),
     ts:         Date.now()
   };
@@ -1801,8 +1834,89 @@ function loadFromUrl() {
   document.querySelectorAll('input[type=checkbox]').forEach(cb => {
     cb.disabled = true;
   });
+
+  // 이미지 URL → 클릭 버튼으로 변환 (작업자 뷰)
+  const imgReqEl = document.getElementById('image_req');
+  const viewerEl = document.getElementById('image_req_viewer');
+  if (imgReqEl && viewerEl && data.image_req) {
+    const urls = data.image_req.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+    if (urls.length > 0) {
+      imgReqEl.style.display = 'none';
+      viewerEl.style.display = 'flex';
+      viewerEl.innerHTML = urls.map((u, i) => `
+        <a href="${u}" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--blue-dim);color:var(--blue);border:1.5px solid var(--blue-mid);border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s"
+          onmouseover="this.style.background='var(--blue);this.style.color=\\'#fff\\''"
+          onmouseout="this.style.background='var(--blue-dim)';this.style.color='var(--blue)'">
+          🔗 이미지 ${i + 1} 열기
+        </a>`).join('');
+    }
+  }
+
+  // 첨부파일 복원 (작업자 뷰)
+  if (data.attachments && data.attachments.length > 0) {
+    window._attachments = data.attachments;
+    renderAttachList(true);
+    document.getElementById('attachDropZone').style.display = 'none';
+    document.getElementById('attachInput').style.display = 'none';
+  }
+
+
 }
 
+// ─────────────────────────────────────────
+//  참고 이미지 첨부 기능
+// ─────────────────────────────────────────
+window._attachments = []; // [{name, type, data}]
+
+function handleFileSelect(files) {
+  [...files].forEach(file => processFile(file));
+}
+
+function handleFileDrop(e) {
+  e.preventDefault();
+  document.getElementById('attachDropZone').style.borderColor = 'var(--line2)';
+  [...e.dataTransfer.files].forEach(file => processFile(file));
+}
+
+function processFile(file) {
+  const MAX = 2 * 1024 * 1024; // 2MB
+  const isImage = /\.(jpe?g|png|gif|webp)$/i.test(file.name);
+
+  if (isImage && file.size <= MAX) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      window._attachments.push({ name: file.name, type: 'image', data: e.target.result });
+      renderAttachList(false);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // PSD 등 대용량: 파일명만 저장
+    window._attachments.push({ name: file.name, type: 'file', data: null });
+    renderAttachList(false);
+  }
+}
+
+function renderAttachList(readOnly) {
+  const list = document.getElementById('attachList');
+  if (!list) return;
+  list.innerHTML = window._attachments.map((f, i) => `
+    <div style="position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg)">
+      ${f.type === 'image'
+        ? `<img src="${f.data}" style="width:100px;height:80px;object-fit:cover;display:block">`
+        : `<div style="width:100px;height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px">
+             <div style="font-size:22px">📄</div>
+           </div>`}
+      <div style="padding:4px 6px;font-size:10px;color:var(--ink3);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</div>
+      ${!readOnly ? `<button onclick="removeAttach(${i})"
+        style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>` : ''}
+    </div>`).join('');
+}
+
+function removeAttach(idx) {
+  window._attachments.splice(idx, 1);
+  renderAttachList(false);
+}
 
 // ─────────────────────────────────────────
 //  의뢰서 수정 모드 활성화
@@ -1817,6 +1931,17 @@ function enableEdit() {
   document.querySelectorAll('input[type=checkbox]').forEach(cb => {
     cb.disabled = false;
   });
+
+  // image_req: 버튼뷰 숨기고 textarea 다시 표시
+  const imgReqEl = document.getElementById('image_req');
+  const viewerEl = document.getElementById('image_req_viewer');
+  if (imgReqEl) { imgReqEl.style.display = ''; imgReqEl.style.pointerEvents = ''; }
+  if (viewerEl) viewerEl.style.display = 'none';
+
+  // 드롭존 다시 표시
+  const dz = document.getElementById('attachDropZone');
+  if (dz) dz.style.display = '';
+  document.getElementById('attachInput').style.display = 'none';
   // 제출 바를 원래대로
   const submitBar = document.querySelector('.submit-bar');
   if (submitBar) {
@@ -1855,6 +1980,9 @@ function resetAll() {
     if(el){ el.textContent = '0/12'; el.className = 'char-counter'; }
   });
   document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  // 첨부파일 초기화
+  window._attachments = [];
+  renderAttachList(false);
   // URL 해시 제거
   history.replaceState(null, '', window.location.pathname);
   updateCount();
